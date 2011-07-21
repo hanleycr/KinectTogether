@@ -15,83 +15,72 @@ OS SUPPORT: Only tested on Linux so far
 
 FILES:
         PointDrawer.cpp - The hand tracking program with picture following feature
-        PointDrawer.cpp.bkp - Backup 
-        .comKinReg.cpp - The registraion program
-        CMakeLists.txt - Cmake file with build commands
-        include |
-                | libfreenect - open source driver for the kinect
+        PointDrawer.h - Header for PointDrawer 
 
+        //NITE files that are important to have
+        PointViewer.mak 
+        kbhit.cpp - 
+        kbhit.h - Header for kbhit
+        main.cpp
+        opengles.cpp
+        opengles.h
+        signal_catch.cpp
+        signal_catch.h
 
-DEPENDENCIES:   OpenCV
-                OpenGL
-                GLUT
+        //Library/API thing for reading images:
+        stb_image.c         
+        stb_image.h
+        stb_image.o
 
-    DISCLAIMER:
+        Debug |
+              | PointDrawer.d
+              | PointDrawer.o
+              | main.d
+              | main.o
+              | signal_catch.d
+              | signal_catch.o
+ 
+        Release |
+                | PointDrawer.d
+                | PointDrawer.o
+                | main.d
+                | main.o
+                | signal_catch.d
+                | signal_catch.o
+                | stb_image.d
+                | stb_image.o
+        orig |
+             | PointDrawer.d
+             | PointDrawer.o
+             | main.d
+             | main.o
+             | signal_catch.d
+             | signal_catch.o
+             | stb_image.o
 
-		I've bundled a version of the libfreenect driver into this package. Get
-		it straight from git if you want all their samples and goodies. 
-
-            libfreenect: https://github.com/OpenKinect/libfreenect
-
-        Also check out their wiki to learn about the organization
-        that put it together.
-
-            OpenKinect: http://openkinect.org/wiki/Main_Page 
-
+DEPENDENCIES:   OpenNI
+                NITE
+                
 
 COMPILATION INSTRUCTIONS: 
 
--If you don't have cmake you can get it with aptitude
-
-    sudo apt-get install cmake
-
--For a breif introduction to CMake follow my tutorial
-
-    http://mathnathan.com/2010/07/11/getting-started-with-cmake/
-
--Make a build directory and from it run 
-
-    cmake ..
-    make
-
-	NOTE: If you have the dependencies installed (to your root directories, or
-	their paths in your ldpaths), then it should "just work" in UBUNTU 10.04 and
-	10.10. Please let me know otherwise
+-To make: g++ -o ../Bin/Sample-PointViewer ./Release/main.o ./Release/PointDrawer.o ./Release/signal_catch.o ./Release/stb_image.o  -L../Bin -lglut -lOpenNI -lXnVNite_1_3_1 -lpng -ljpeg
 
 
 ---------------------------Simple Project Manual--------------------------------------
 
 
-    This program is intended to register multiple point clouds
-    into one coordinate system. The point clouds are obtained
-    from Microsoft's Kinect sensors.
+    This program is does hand tracking. It places an image on top of the hand. 
+    The point cloud is obtained from Microsoft's Kinect sensors.
 
-        NOTE: Only support for 2 cameras for now
+        NOTE: Only support for 1 camera for now
 
-    It begins by finding correspondences between the two cameras.
-    The process is interactive.
-
-        Once KinReg is running, a window pops up containing both images side by side.
-
-	All you do is click on pixels in both cameras the correspond to the same
-	point in world coordinates. Currently the process is rough, it can be
-	improved in the future by drawing circles around the points you click on
-	and adding colors to signify if the correspondence is accepted or not. If
-	both depth measurements for your clicks are found it stores the
-	correspondence. 
-	
-		If at least one of the corespondences is bad it deletes the match.
-
-	Once you've collected around 10 or so correspondences pushing 'p' applies 
-	procrustes analysis on the correspondences and calculates the transformation 
-	matrices. 
-
-		Press 't' to see the translation of the centroids to the origin
-
-		Press 'a' to see the translation and rotation applied to both point clouds
+    It recognizes a hand that is waving. It saves the x,y,z coordinates into 
+    an array. Then, an image is placed at those x,y,z coordinates
+    
 
 ======================================================================================
 
-	"Believing in the way, makes the way!"
+	"Such is oft the course of deeds that move the wheels of the world: small hands do them because they must, while the eyes of the great are elsewhere."
 
 
